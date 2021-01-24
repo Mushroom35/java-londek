@@ -1,5 +1,7 @@
 package pl.sda.javalondek4.java_demo.optional.java7;
 
+import java.util.Optional;
+
 public class ComputerUtils {
 
     private ComputerUtils() {
@@ -32,17 +34,23 @@ public class ComputerUtils {
         return result;
     }
 
+    public static String getGPUModelWithJava8(Computer computer) {
+        return Optional.ofNullable(computer)
+                .map(comp -> comp.getGraphicsCard())
+                .map(graphicsCard -> graphicsCard.getModel())
+                .orElse("no model");
+    }
+
     public static void main(String[] args) {
+        Computer nullComputer = null;
         Computer withoutGraphicsCard = new Computer(null);
         Computer withUnknownModel = new Computer(new GraphicsCard(null));
         Computer personalComputer = new Computer(new GraphicsCard("nVidia RTX 3080"));
 
-/*        getGraphicsCardModelFirstNaiveApproach(withoutGraphicsCard);
+        getGraphicsCardModelFirstNaiveApproach(withoutGraphicsCard);
         getGraphicsCardModelFirstNaiveApproach(withUnknownModel);
-        getGraphicsCardModelFirstNaiveApproach(personalComputer);*/
+        getGraphicsCardModelFirstNaiveApproach(personalComputer);
+        getGraphicsCardModelFirstNaiveApproach(nullComputer);
 
-        getGraphicCardModelGoodApproach(withoutGraphicsCard);
-        getGraphicCardModelGoodApproach(withUnknownModel);
-        getGraphicCardModelGoodApproach(personalComputer);
     }
 }
